@@ -6,7 +6,7 @@ export function Logo({ size = 22 }: { size?: number }) {
   return (
     <span className="logo" style={{ fontSize: size }}>
       <Waveform bars={5} size={size} />
-      <span className="word">Survery App</span>
+      <span className="word">Survey App</span>
       <style jsx>{`
         .logo {
           display: inline-flex;
