@@ -10,7 +10,7 @@ const en: Dict = {
   micActive: "Microphone ready",
   micDenied: "Mic permission denied",
   start: "Start",
-  meta: "~ 8 minutes · voice or text",
+  meta: "~ 8 minutes · text based",
   invalidEmail: "Please enter a valid email address.",
   starting: "Starting…",
   typeResponse: "Type your response…",
