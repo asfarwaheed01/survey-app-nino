@@ -14,8 +14,14 @@ export default function Landing() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   async function start() {
     setError("");
+    if (!EMAIL_RE.test(email.trim())) {
+      setError(t(lang, "invalidEmail"));
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch("/api/start", {
@@ -33,6 +39,8 @@ export default function Landing() {
     } catch {
       setError(t(lang, "errorGeneric"));
       setLoading(false);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -49,20 +57,22 @@ export default function Landing() {
         {t(lang, "heroSub")}
       </p>
 
-      <div className="flex w-full max-w-[430px] flex-col gap-3">
+      <div className="flex w-full max-w-107.5 flex-col gap-3">
         <input
           type="email"
           placeholder={t(lang, "emailPlaceholder")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && start()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.nativeEvent.isComposing) start();
+          }}
           className="w-full rounded-xl border border-(--line) bg-white px-5! py-4! text-center text-base text-(--ink) outline-none placeholder:text-[#9a938c] focus:border-(--rose)"
         />
 
         <button
           type="button"
           onClick={start}
-          disabled={loading}
+          disabled={loading || !EMAIL_RE.test(email.trim())}
           className="w-full cursor-pointer rounded-xl bg-(--rose) px-5 py-4 text-base font-semibold text-white transition-colors hover:not-disabled:bg-[#c47b74] disabled:cursor-default disabled:opacity-60"
         >
           {loading ? t(lang, "starting") : t(lang, "start")}
